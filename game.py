@@ -8,36 +8,35 @@ class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption("Snake Game")
         self.clock = pygame.time.Clock()
         self.snake = Snake()
         self.food = Food()
         self.score = 0
 
     def display_score(self):
-        # Display the score on the screen.
+        """Display the score on the screen."""
         font = pygame.font.Font(None, 35)
         score_surface = font.render(f"Score: {self.score}", True, WHITE)
         self.screen.blit(score_surface, (400, 20))
 
     def check_collision(self):
-        # Checks for collisions with wall or itself
-
-        # Wall Collision:
+        """Check for collisions with walls or itself."""
+        # Wall collision
         if (self.snake.position[0] < 0 or self.snake.position[0] >= 800 or
             self.snake.position[1] < 0 or self.snake.position[1] >= 600):
             return True
-        
-        # Self Collision:
+
+        # Self collision
         for block in self.snake.body[1:]:
             if self.snake.position == block:
                 return True
-        
         return False
-    
+
+    # game.py (Updated `run` method)
     def run(self):
-        # Run the game loop
+        """Run the game loop."""
         running = True
-        
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -52,30 +51,30 @@ class Game:
                     if event.key == pygame.K_RIGHT:
                         self.snake.change_direction('RIGHT')
 
-            # Move the snake 
+            # Move the snake
             self.snake.move()
 
-            # Check of the snake eats
+            # Check if snake eats the food
             if self.snake.position == self.food.position:
                 self.score += 10
                 self.food.spawn_food()
                 self.snake.grow()
 
-            # CHeck For Collisions
+            # Check for collisions
             if self.check_collision():
                 running = False
-            
-            # Draw Everrything
+
+            # Draw everything
             self.screen.fill(BLACK)
             for block in self.snake.body:
                 pygame.draw.rect(self.screen, GREEN, pygame.Rect(block[0], block[1], 20, 20))
-            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food.position[0], self.food.position[1], 20 , 20))
+            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food.position[0], self.food.position[1], 20, 20))
             self.display_score()
-            
+
             # Refresh the screen
             pygame.display.flip()
 
             # Control the game speed
             self.clock.tick(15)
-        
+
         pygame.quit()
