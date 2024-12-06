@@ -6,7 +6,7 @@ from food import Food
 
 class Game:
     def __init__(self):
-        pygame.ini()
+        pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
         self.clock = pygame.time.Clock()
         self.snake = Snake()
@@ -29,7 +29,7 @@ class Game:
         
         # Self Collision:
         for block in self.snake.body[1:]:
-            if self.self.snake.position == block:
+            if self.snake.position == block:
                 return True
         
         return False
