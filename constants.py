@@ -1,4 +1,4 @@
-# constraints.py
+# constants.py
 
 # Screen Dimensions
 WIDTH, HEIGHT = 800, 600
