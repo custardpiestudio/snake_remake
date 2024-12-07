@@ -4,12 +4,13 @@ from constants import *
 from snake import Snake
 from food import Food
 from screens import show_title_screen, show_game_over_screen
+from version import __version__
 
 class Game:
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Snake Game")
+        pygame.display.set_caption(f"Snake Game (Version: {__version__})")
         self.clock = pygame.time.Clock()
         self.snake = Snake()
         self.food = Food()
@@ -114,6 +115,7 @@ class Game:
             f"Snake Length: {len(self.snake.body)}",  # Snake body length
             f"Food Position: {self.food.position}",  # Food position on the grid
             f"Snake Head: {self.snake.position}",  # Snake head position
+            f"Version: {__version__}"
         ]
         
         # Render each debug line
