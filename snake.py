@@ -39,6 +39,9 @@ class Snake:
         self.body.pop()
 
     def grow(self):
-        """Grow the snake (do not remove the tail)."""
-        self.body.insert(0, list(self.position))
+        """Grow the snake by adding a segment at the tail."""
+        # Add a new segment at the tail
+        new_segment = self.body[-1]
+        print(f"Growing snake. Adding segment at: {new_segment}")  # Debug message
+        self.body.append(new_segment)
     

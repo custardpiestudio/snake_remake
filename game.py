@@ -1,6 +1,6 @@
 # game.py
 import pygame
-from constants import BLACK, GREEN, RED, WHITE, CELL_SIZE, EAT_RANGE
+from constants import *
 from snake import Snake
 from food import Food
 
@@ -20,17 +20,21 @@ class Game:
         score_surface = font.render(f"Score: {self.score}", True, WHITE)
         self.screen.blit(score_surface, (400, 20))
 
+    # game.py
     def check_collision(self):
-        """Check for collisions with walls or itself."""
+        """Check for wall or self-collision."""
         # Wall collision
-        if (self.snake.position[0] < 0 or self.snake.position[0] >= 800 or
-            self.snake.position[1] < 0 or self.snake.position[1] >= 600):
+        if (self.snake.position[0] < 0 or self.snake.position[0] >= WIDTH or
+            self.snake.position[1] < 0 or self.snake.position[1] >= HEIGHT):
+            print("Wall collision detected!")  # Debug message
             return True
 
-        # Self collision
+        # Self-collision
         for block in self.snake.body[1:]:
             if self.snake.position == block:
+                print(f"Self-collision detected! Head: {self.snake.position}, Body: {self.snake.body}")  # Debug message
                 return True
+
         return False
 
     def run(self):
