@@ -94,6 +94,7 @@ class Game:
                 pygame.draw.rect(self.screen, GREEN, pygame.Rect(block[0], block[1], CELL_SIZE, CELL_SIZE))
             pygame.draw.rect(self.screen, RED, pygame.Rect(self.food.position[0], self.food.position[1], CELL_SIZE, CELL_SIZE))
             self.display_score()
+            self.display_debug_info()
 
             # Refresh the screen
             pygame.display.flip()
@@ -102,3 +103,22 @@ class Game:
             self.clock.tick(15)
 
         pygame.quit()
+
+
+    def display_debug_info(self):
+        """Display debug information on the screen."""
+        font = pygame.font.Font(None, 20)
+        debug_lines = [
+            f"FPS: {int(self.clock.get_fps())}",  # Frames Per Second
+            f"Score: {self.score}",  # Current score
+            f"Snake Length: {len(self.snake.body)}",  # Snake body length
+            f"Food Position: {self.food.position}",  # Food position on the grid
+            f"Snake Head: {self.snake.position}",  # Snake head position
+        ]
+        
+        # Render each debug line
+        y_offset = 40  # Starting vertical position
+        for line in debug_lines:
+            debug_surface = font.render(line, True, (255, 255, 255))
+            self.screen.blit(debug_surface, (10, y_offset))
+            y_offset += 20
