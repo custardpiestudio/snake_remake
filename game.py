@@ -1,6 +1,6 @@
 # game.py
 import pygame
-from constants import BLACK, GREEN, RED, WHITE
+from constants import BLACK, GREEN, RED, WHITE, CELL_SIZE, EAT_RANGE
 from snake import Snake
 from food import Food
 
@@ -33,7 +33,6 @@ class Game:
                 return True
         return False
 
-    # game.py (Updated `run` method)
     def run(self):
         """Run the game loop."""
         running = True
@@ -54,21 +53,28 @@ class Game:
             # Move the snake
             self.snake.move()
 
-            # Check if snake eats the food
-            if self.snake.position == self.food.position:
-                self.score += 10
-                self.food.spawn_food()
-                self.snake.grow()
+            # Debugging: Print snake and food positions
+            print(f"Snake Position (Head): {self.snake.position}")
+            print(f"Food Position: {self.food.position}")
 
-            # Check for collisions
+            # Check if snake eats the food (using proximity range)
+            if (abs(self.snake.position[0] - self.food.position[0]) <= EAT_RANGE and
+                    abs(self.snake.position[1] - self.food.position[1]) <= EAT_RANGE):
+                print("Food eaten!")  # Debug message
+                self.score += 10
+                self.food.spawn_food()  # Respawn the food
+                self.snake.grow()       # Grow the snake
+
+            # Check for wall or self-collision
             if self.check_collision():
+                print("Collision detected!")  # Debug message
                 running = False
 
             # Draw everything
             self.screen.fill(BLACK)
             for block in self.snake.body:
-                pygame.draw.rect(self.screen, GREEN, pygame.Rect(block[0], block[1], 20, 20))
-            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food.position[0], self.food.position[1], 20, 20))
+                pygame.draw.rect(self.screen, GREEN, pygame.Rect(block[0], block[1], CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(self.screen, RED, pygame.Rect(self.food.position[0], self.food.position[1], CELL_SIZE, CELL_SIZE))
             self.display_score()
 
             # Refresh the screen

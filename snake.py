@@ -1,4 +1,5 @@
 # snake.py
+from constants import CELL_SIZE
 
 class Snake:
     def __init__(self):
@@ -22,13 +23,16 @@ class Snake:
         """Move the snake in the current direction."""
         self.direction = self.change_to
         if self.direction == 'UP':
-            self.position[1] -= 20
+            self.position[1] -= CELL_SIZE
         if self.direction == 'DOWN':
-            self.position[1] += 20
+            self.position[1] += CELL_SIZE
         if self.direction == 'LEFT':
-            self.position[0] -= 20
+            self.position[0] -= CELL_SIZE
         if self.direction == 'RIGHT':
-            self.position[0] += 20
+            self.position[0] += CELL_SIZE
+
+        # Debugging: Ensure the position is grid-aligned
+        print(f"New Snake Head Position: {self.position}")
 
         # Insert new head position and remove the tail
         self.body.insert(0, list(self.position))
