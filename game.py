@@ -3,6 +3,7 @@ import pygame
 from constants import *
 from snake import Snake
 from food import Food
+from screens import show_title_screen, show_game_over_screen
 
 class Game:
     def __init__(self):
@@ -19,6 +20,12 @@ class Game:
         font = pygame.font.Font(None, 35)
         score_surface = font.render(f"Score: {self.score}", True, WHITE)
         self.screen.blit(score_surface, (400, 20))
+
+    def reset_game(self):
+        """Reset the game state."""
+        self.snake = Snake()
+        self.food = Food()
+        self.score = 0
 
     # game.py
     def check_collision(self):
@@ -39,6 +46,9 @@ class Game:
 
     def run(self):
         """Run the game loop."""
+        show_title_screen(self.screen)
+        self.reset_game()
+
         running = True
         while running:
             for event in pygame.event.get():
@@ -72,7 +82,11 @@ class Game:
             # Check for wall or self-collision
             if self.check_collision():
                 print("Collision detected!")  # Debug message
-                running = False
+                action = show_game_over_screen(self.screen)
+                if action == 'RESTART':
+                    self.reset_game()
+                else:
+                    running = False
 
             # Draw everything
             self.screen.fill(BLACK)
